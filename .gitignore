@@ -1,0 +1,150 @@
+# ==============================================================================
+# EMAIL-TO-S3 PIPELINE — .gitignore
+# ==============================================================================
+
+# ==============================================================================
+# CREDENTIALS & SECRETS  (NEVER commit these)
+# ==============================================================================
+
+# Python dotenv — holds Azure, AWS, SES credentials
+.env
+.env.*
+!.env.example
+
+# Encryption key files (loaded via KEYFILEPATH env var in utils/encryption.py)
+*.key
+*.pem
+*.p12
+*.pfx
+
+# AWS credential files
+.aws/
+
+# Azure / MSAL token cache
+msal_token_cache.bin
+token_cache.json
+
+# ==============================================================================
+# PROJECT CONFIG WITH SENSITIVE DATA
+# ==============================================================================
+
+# config.toml contains hardcoded DB host, port, user, password — DO NOT commit
+# Commit a config.toml.example with dummy values instead
+config/config.toml
+
+# DO NOT ignore these (they are safe to commit):
+# config/config.py
+# config/database.py
+# config/email_processing_rules.json
+
+# ==============================================================================
+# RUNTIME OUTPUT — LOGS
+# ==============================================================================
+
+# Default LOG_DIR = "logs" (set in config.toml / AppConfig)
+logs/
+*.log
+
+# Audit log written by utils/pipeline_tracking.py
+audit_*.log
+audit_*.json
+
+# ==============================================================================
+# RUNTIME OUTPUT — DATA & TEMP FILES
+# ==============================================================================
+
+# Default DATA_DIR = "data" (used for local attachment staging/download)
+data/
+
+# Temporary download staging (FileDownloader stages attachments locally)
+tmp/
+temp/
+downloads/
+
+# Processed attachment types that may be staged locally before S3 upload
+# (Office docs, CSVs, ZIPs handled by processors/downloader.py)
+*.csv
+*.gz
+*.zip
+
+# Excel files — leave tracked if they are STATIC config/rule files,
+# but ignore any runtime-generated ones in data/ or tmp/ (covered above)
+# Uncomment below ONLY if you never commit Excel files intentionally:
+# *.xlsx
+# *.xlsm
+
+# ==============================================================================
+# PYTHON ARTIFACTS
+# ==============================================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyz
+
+# ==============================================================================
+# VIRTUAL ENVIRONMENT
+# ==============================================================================
+
+# .venv present at project root
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+__pypackages__/
+
+# ==============================================================================
+# TESTING & COVERAGE
+# ==============================================================================
+
+# Test output files (scripts/generate_sample_audit.py, etc.)
+sample_audit*.json
+sample_audit*.xlsx
+test_output/
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# ==============================================================================
+# PACKAGING & BUILD
+# ==============================================================================
+
+build/
+dist/
+*.egg-info/
+.eggs/
+MANIFEST
+*.egg
+wheels/
+
+# ==============================================================================
+# IDE & EDITOR
+# ==============================================================================
+
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.ropeproject/
+.spyderproject/
+.spyproject/
+
+# ==============================================================================
+# OS ARTIFACTS
+# ==============================================================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
